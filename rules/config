@@ -69,13 +69,13 @@ DEFAULT_BUILD_LOG_TIMESTAMP = none
 # SONIC_CONFIG_ENABLE_COLORS = y
 
 # CHANGE_DEFAULT_PASSWORD - enforce default user/users to change password on 1st login
-CHANGE_DEFAULT_PASSWORD ?= n
+CHANGE_DEFAULT_PASSWORD ?= y
 
 # DEFAULT_USERNAME - default username for installer build
 DEFAULT_USERNAME = admin
 
 # DEFAULT_PASSWORD - default password for installer build
-DEFAULT_PASSWORD = YourPaSsWoRd
+DEFAULT_PASSWORD = admin
 
 # BMC_NOS_ACCOUNT_USERNAME - default BMC NOS account username
 BMC_NOS_ACCOUNT_USERNAME ?= yormnAnb
@@ -147,8 +147,8 @@ FRR_USER_GID = 300
 #	rcache  :  Use cache if exists, but dont update the cache
 #	cache   :  Same as rwcache
 # SONIC_DPKG_CACHE_SOURCE - Stores the cache location details
-SONIC_DPKG_CACHE_METHOD ?= none
-SONIC_DPKG_CACHE_SOURCE ?= /var/cache/sonic/artifacts
+SONIC_DPKG_CACHE_METHOD ?= rwcache
+SONIC_DPKG_CACHE_SOURCE ?= /home/builduser/var/cache/sonic/artifacts
 
 # Default VS build memory preparation
 DEFAULT_VS_PREPARE_MEM = yes
@@ -169,7 +169,7 @@ INCLUDE_SYSTEM_TELEMETRY = n
 INCLUDE_SYSTEM_OTEL = y
 
 # INCLUDE_ICCPD - build docker-iccpd for mclag support
-INCLUDE_ICCPD ?= n
+INCLUDE_ICCPD ?= y
 
 # INCLUDE_SNMP - build docker-snmp for SNMP support
 INCLUDE_SNMP ?= y
@@ -188,7 +188,7 @@ INCLUDE_MGMT_FRAMEWORK = y
 ENABLE_HOST_SERVICE_ON_START = y
 
 # INCLUDE_RESTAPI - build docker-sonic-restapi for configuring the switch using REST APIs
-INCLUDE_RESTAPI ?= n
+INCLUDE_RESTAPI ?= y
 
 # INCLUDE_NAT - build docker-nat for nat support
 INCLUDE_NAT = y
@@ -197,7 +197,7 @@ INCLUDE_NAT = y
 INCLUDE_DHCP_RELAY = y
 
 # INCLUDE_DHCP_SERVER - build dhcp-server package and enable based on config_db.json
-INCLUDE_DHCP_SERVER ?= n
+INCLUDE_DHCP_SERVER ?= y
 
 # INCLUDE_P4RT - build docker-p4rt for P4RT support
 INCLUDE_P4RT = n
@@ -336,8 +336,8 @@ MIRROR_SNAPSHOT ?= n
 #	none    :  no caching
 #	cache   :  Use cache if exists else build the source and update the cache
 # SONIC_VERSION_CACHE_SOURCE - Defines the version cache location details
-SONIC_VERSION_CACHE_METHOD ?= none
-SONIC_VERSION_CACHE_SOURCE ?= $(SONIC_DPKG_CACHE_SOURCE)/vcache
+SONIC_VERSION_CACHE_METHOD ?= cache
+SONIC_VERSION_CACHE_SOURCE ?= /home/builduser/$(SONIC_DPKG_CACHE_SOURCE)/vcache
 
 # SONiC docker registry
 #
@@ -379,7 +379,7 @@ SONIC_OS_VERSION ?= 13
 PIP_HTTP_TIMEOUT ?= 60
 
 # BUILD_REDUCE_IMAGE_SIZE - reduce the image size as much as possbible
-BUILD_REDUCE_IMAGE_SIZE = n
+BUILD_REDUCE_IMAGE_SIZE = y
 
 # SONIC_PTF_ENV_PY_VER - SONiC PTF test Python version. Set to 'mixed' to build the
 # image with both Python 2 and 3. Set to 'py3' to build a Python 3 only image
@@ -389,7 +389,7 @@ SONIC_PTF_ENV_PY_VER = py3
 BUILD_PROCESS_TIMEOUT ?= 0
 
 # BUILD_SKIP_TEST - skip all tests when building to reduce build time
-BUILD_SKIP_TEST ?= n
+BUILD_SKIP_TEST ?= y
 # SONIC_CONFIG_USE_DOCKER_CACHE - use Docker layer cache for image builds.
 # Removes --no-cache from docker build commands, allowing unchanged layers
 # to be reused. Significantly speeds up incremental builds (~20+ min savings)
@@ -402,4 +402,4 @@ BUILD_SKIP_TEST ?= n
 # unchanged source files are near-instant. The cache is stored in
 # target/ccache/ and persists across builds.
 # Default: disabled (no impact on clean builds without a warm cache)
-SONIC_CONFIG_USE_CCACHE ?= n
+SONIC_CONFIG_USE_CCACHE ?= y
