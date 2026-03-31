@@ -542,11 +542,14 @@ RUN eatmydata apt-get install -y kernel-wedge
 # For gobgp and telemetry build
 RUN eatmydata apt-get install -y golang
 {%- if INCLUDE_FIPS == "y" %}
-RUN wget -O golang-go.deb '{{ BUILD_PUBLIC_URL }}/fips/bookworm/{{ FIPS_VERSION }}/{{ CONFIGURED_ARCH }}/golang-1.19-go_{{ FIPS_GOLANG_VERSION }}_{{ CONFIGURED_ARCH }}.deb' \
- && wget -O golang-src.deb '{{ BUILD_PUBLIC_URL }}/fips/bookworm/{{ FIPS_VERSION }}/{{ CONFIGURED_ARCH }}/golang-1.19-src_{{ FIPS_GOLANG_VERSION }}_all.deb' \
- && eatmydata dpkg -i golang-go.deb golang-src.deb \
- && ln -sf /usr/lib/go-1.19 /usr/local/go \
- && rm golang-go.deb golang-src.deb
+RUN set -eux; \
+ wget --inet4-only --tries=3 --timeout=30 -O golang-go.deb '{{ BUILD_PUBLIC_URL }}/fips/bookworm/{{ FIPS_VERSION }}/{{ CONFIGURED_ARCH }}/golang-{{ FIPS_GOLANG_MAIN_VERSION }}-go_{{ FIPS_GOLANG_VERSION }}_{{ CONFIGURED_ARCH }}.deb'; \
+ wget --inet4-only --tries=3 --timeout=30 -O golang-src.deb '{{ BUILD_PUBLIC_URL }}/fips/bookworm/{{ FIPS_VERSION }}/{{ CONFIGURED_ARCH }}/golang-{{ FIPS_GOLANG_MAIN_VERSION }}-src_{{ FIPS_GOLANG_VERSION }}_all.deb'; \
+ test -s golang-go.deb; \
+ test -s golang-src.deb; \
+ eatmydata dpkg -i ./golang-go.deb ./golang-src.deb; \
+ ln -sf /usr/lib/go-{{ FIPS_GOLANG_MAIN_VERSION }} /usr/local/go; \
+ rm -f golang-go.deb golang-src.deb
 {%- else %}
 RUN eatmydata apt-get install -y golang-go \
  && ln -sf /usr/lib/go-1.19 /usr/local/go
