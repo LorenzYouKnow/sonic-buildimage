@@ -109,3 +109,13 @@ class ThermalUtil(object):
     def get_thermal_2_val(self):
         return self._get_thermal_node_val(self.THERMAL_NUM_2_IDX)
 
+#def main():
+#    thermal = ThermalUtil()
+#
+#    print 'get_size_node_map : %d' % thermal.get_size_node_map()
+#    print 'get_size_path_map : %d' % thermal.get_size_path_map()
+#    for x in range(thermal.get_idx_thermal_start(), thermal.get_num_thermals()+1):
+#        print thermal.get_thermal_to_device_path(x)
+#
+#if __name__ == '__main__':
+#    main()

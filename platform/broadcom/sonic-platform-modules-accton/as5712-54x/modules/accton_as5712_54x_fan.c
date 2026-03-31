@@ -390,10 +390,12 @@ exit:
     return status;
 }
 
-static void accton_as5712_54x_fan_remove(struct platform_device *pdev)
+static int accton_as5712_54x_fan_remove(struct platform_device *pdev)
 {
     hwmon_device_unregister(fan_data->hwmon_dev);
     sysfs_remove_group(&fan_data->pdev->dev.kobj, &accton_as5712_54x_fan_group);
+
+    return 0;
 }
 
 
