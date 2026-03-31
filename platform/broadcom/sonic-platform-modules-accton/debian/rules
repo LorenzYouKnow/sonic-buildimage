@@ -6,7 +6,14 @@
 # dh-make output file, you may use that output file without restriction.
 # This special exception was added by Craig Small in version 0.37 of dh-make.
 
-include /usr/share/dpkg/pkg-info.mk
+PKG_INFO_MK := /usr/share/dpkg/pkg-info.mk
+RULES_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
+ifneq ($(wildcard $(PKG_INFO_MK)),)
+include $(PKG_INFO_MK)
+else
+include $(RULES_DIR)/../pkg-info.mk
+endif
 
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
